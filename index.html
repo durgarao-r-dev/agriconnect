@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B4332">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png" type="image/png">
+<title>AgriConnect — Smart Agriculture Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="agri-portal-background.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site-header" id="top">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34"><path d="M24 44C24 44 8 34 8 18C8 10 14 4 24 4C34 4 40 10 40 18C40 34 24 44 24 44Z" fill="#2D6A4F"/><path d="M24 38C24 38 14 30 14 19C14 14 18 10 24 10C30 10 34 14 34 19C34 30 24 38 24 38Z" fill="#74C69D"/></svg>
+      </span>
+      <span class="brand-text">Agri<em>Connect</em></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#home">Home</a>
+      <a href="#crops">Crops</a>
+      <a href="#market">Market Prices</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost">Log in</a>
+      <a href="register.html" class="btn btn-primary">Register</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-label="Live market price ticker">
+  <div class="ticker-label">
+    <span class="dot"></span> DEMO MANDI RATES
+  </div>
+  <div class="ticker-track-wrap">
+    <div class="ticker-track" id="tickerTrack">
+      <!-- duplicated in JS for seamless loop -->
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-field" aria-hidden="true">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none" class="furrows">
+      <path d="M0,300 Q300,200 600,260 T1200,220 L1200,300 Z" fill="#163b2c"/>
+      <path d="M0,300 Q300,230 600,280 T1200,250 L1200,300 Z" fill="#1b4332"/>
+      <path d="M0,300 Q300,260 600,295 T1200,275 L1200,300 Z" fill="#214a3c"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <p class="eyebrow">Season 2026 · Kharif advisory now open</p>
+    <h1 class="hero-title">Know your soil.<br>Know your price.<br><span class="accent-underline">Grow with confidence.</span></h1>
+    <p class="hero-sub">AgriConnect brings live mandi rates, crop guidance, and a direct line between farmers and buyers — built for the field, not the boardroom.</p>
+
+    <div class="hero-ctas">
+      <a href="register.html" class="btn btn-primary btn-lg">Join as a Farmer</a>
+      <a href="#market" class="btn btn-outline btn-lg">Check Today's Rates</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">12,400+</span>
+        <span class="stat-label">Registered farmers</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">38</span>
+        <span class="stat-label">Crops tracked daily</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">21</span>
+        <span class="stat-label">District markets covered</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CROPS ============ -->
+<section class="section crops" id="crops">
+  <div class="section-head">
+    <p class="eyebrow">Crop Directory</p>
+    <h2>Built around what's growing right now</h2>
+    <p class="section-sub">Browse staple, cash, and seasonal crops with sowing windows, ideal soil, and water needs — kept simple, kept useful.</p>
+  </div>
+
+  <div class="crop-grid" id="cropGrid">
+    <!-- cards injected by JS from data, with a few rendered here for no-JS fallback -->
+  </div>
+</section>
+
+<!-- ============ MARKET PRICES ============ -->
+<section class="section market" id="market">
+  <div class="section-head light">
+    <p class="eyebrow">Mandi Rates</p>
+    <h2>Today's market prices</h2>
+    <p class="section-sub">Rates below are sample/demo data for this portal. Admins can edit them in the demo (browser storage). They are not live exchange prices.</p>
+  </div>
+
+  <div class="market-toolbar">
+    <input type="text" id="marketSearch" placeholder="Search a crop, e.g. Wheat, Onion..." class="search-input">
+    <select id="marketSort" class="sort-select">
+      <option value="name">Sort: Name (A–Z)</option>
+      <option value="high">Sort: Price (High to Low)</option>
+      <option value="low">Sort: Price (Low to High)</option>
+    </select>
+  </div>
+
+  <div class="table-wrap">
+    <table class="market-table" id="marketTable">
+      <thead>
+        <tr>
+          <th>Crop</th>
+          <th>Market / Mandi</th>
+          <th>Price (₹ / Quintal)</th>
+          <th>Trend</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody id="marketBody">
+        <!-- rows injected by JS -->
+      </tbody>
+    </table>
+  </div>
+  <p class="market-note">Want to list your own produce? <a href="login.html?role=farmer">Log in as a farmer</a> to add stock.</p>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section services" id="services">
+  <div class="section-head">
+    <p class="eyebrow">Services</p>
+    <h2>Everything a farm operation needs, in one place</h2>
+    <p class="section-sub">Tap a service to go straight to it — internal tools open inside the portal, external services open in a new tab.</p>
+  </div>
+
+  <div class="service-grid" id="serviceGrid">
+    <!-- injected by JS -->
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section about" id="about">
+  <div class="about-grid">
+    <div class="about-copy">
+      <p class="eyebrow">About AgriConnect</p>
+      <h2>A portal built from the field up</h2>
+      <p>AgriConnect was created as a single, no-nonsense place for farmers to check rates, manage their own produce listings, and access basic agri-services — without wading through ads or jargon. Admins keep the data live and accurate; farmers stay in control of what they list.</p>
+      <ul class="about-points">
+        <li><strong>Transparent rates</strong> — sourced from verified mandi data, updated by admins.</li>
+        <li><strong>Farmer-first listings</strong> — add or remove your produce in seconds.</li>
+        <li><strong>No clutter</strong> — no AI gimmicks, just the tools you'll actually use.</li>
+      </ul>
+    </div>
+    <div class="about-visual" aria-hidden="true">
+      <div class="leaf-card card-1">🌾</div>
+      <div class="leaf-card card-2">🌱</div>
+      <div class="leaf-card card-3">🍅</div>
+      <div class="leaf-card card-4">🌽</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section contact" id="contact">
+  <div class="section-head light">
+    <p class="eyebrow">Get in touch</p>
+    <h2>We're here to help</h2>
+    <p class="section-sub">Questions about registration, listings, or rates? Send a message — our support desk replies within one working day.</p>
+  </div>
+
+  <div class="contact-grid">
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="field">
+          <label for="cname">Full name</label>
+          <input type="text" id="cname" name="name" required placeholder="Your name">
+        </div>
+        <div class="field">
+          <label for="cphone">Phone number</label>
+          <input type="tel" id="cphone" name="phone" required placeholder="10-digit mobile number">
+        </div>
+      </div>
+      <div class="field">
+        <label for="cemail">Email</label>
+        <input type="email" id="cemail" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="ctopic">Reason for contact</label>
+        <select id="ctopic" name="topic">
+          <option>General inquiry</option>
+          <option>Help with registration</option>
+          <option>Market price correction</option>
+          <option>Report an issue</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="cmsg">Message</label>
+        <textarea id="cmsg" name="message" rows="4" required placeholder="Tell us more..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg full-width">Send Message</button>
+      <p class="form-success" id="formSuccess" hidden>✓ Thanks — your message has been noted. We'll reach out shortly.</p>
+    </form>
+
+    <div class="contact-info">
+      <div class="info-card">
+        <span class="info-icon">📍</span>
+        <h3>Office</h3>
+        <p>AgriConnect Resource Centre,<br>District Agriculture Bhavan,<br>Block C, Pune, Maharashtra</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">📞</span>
+        <h3>Helpline</h3>
+        <p>1800-180-1551 (toll-free)<br>Mon–Sat, 9am–6pm</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">✉️</span>
+        <h3>Email</h3>
+        <p>support@agriconnect.example<br>response within 24 hrs</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="brand-text light">Agri<em>Connect</em></span>
+      <p>A student project portal for smart agriculture information &amp; farmer assistance.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#home">Home</a>
+      <a href="#crops">Crops</a>
+      <a href="#market">Market Prices</a>
+      <a href="#services">Services</a>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <a href="login.html">Log in</a>
+      <a href="register.html">Register</a>
+      <a href="login.html?role=admin">Admin login</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#contact">Support desk</a>
+      <a href="mailto:support@agriconnect.example">Email us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AgriConnect · College Project Demo · Built for learning purposes</p>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+<script src="data.js"></script>
+<script src="main.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

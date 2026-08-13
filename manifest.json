@@ -1,0 +1,26 @@
+{
+  "name": "AgriConnect — Smart Agriculture Portal",
+  "short_name": "AgriConnect",
+  "description": "Soil intelligence, mandi rates, and farmer produce listings.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#1B4332",
+  "background_color": "#F4F1E8",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

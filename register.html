@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B4332">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png" type="image/png">
+<title>Register — AgriConnect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+<link rel="stylesheet" href="agri-portal-background.css">
+</head>
+<body class="auth-body">
+
+<a href="index.html" class="auth-brand">
+  <span class="brand-mark" aria-hidden="true">
+    <svg viewBox="0 0 48 48" width="30" height="30"><path d="M24 44C24 44 8 34 8 18C8 10 14 4 24 4C34 4 40 10 40 18C40 34 24 44 24 44Z" fill="#2D6A4F"/><path d="M24 38C24 38 14 30 14 19C14 14 18 10 24 10C30 10 34 14 34 19C34 30 24 38 24 38Z" fill="#74C69D"/></svg>
+  </span>
+  <span class="brand-text">Agri<em>Connect</em></span>
+</a>
+
+<main class="auth-wrap">
+  <div class="auth-card auth-card-wide">
+    <div class="role-tabs" role="tablist" aria-label="Choose registration type">
+      <button class="role-tab active" id="tabFarmer" type="button" role="tab" aria-selected="true">
+        <span class="role-icon">🧑‍🌾</span> Register as Farmer
+      </button>
+      <button class="role-tab" id="tabAdmin" type="button" role="tab" aria-selected="false">
+        <span class="role-icon">🛠️</span> Register as Admin
+      </button>
+    </div>
+
+    <div class="auth-head">
+      <h1 id="authTitle">Create your Farmer account</h1>
+      <p id="authSub">List your produce and track mandi rates relevant to you.</p>
+    </div>
+
+    <form class="auth-form" id="registerForm">
+      <div class="form-row">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" required placeholder="Your full name">
+        </div>
+        <div class="field">
+          <label for="phone">Mobile number</label>
+          <input type="tel" id="phone" required placeholder="10-digit mobile number">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" required placeholder="you@example.com">
+      </div>
+
+      <!-- Farmer-only fields -->
+      <div class="form-row role-fields farmer-fields" id="farmerFields">
+        <div class="field">
+          <label for="district">District / Taluka</label>
+          <select id="district">
+            <option value="">Select district / area</option>
+            <option>NTR</option>
+            <option>Krishna</option>
+            <option>Gudivada</option>
+            <option>Eluru</option>
+            <option>Guntur</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="landSize">Land size (acres)</label>
+          <input type="number" id="landSize" min="0" step="0.1" placeholder="e.g. 2.5">
+        </div>
+      </div>
+      <div class="field role-fields farmer-fields" id="primaryCropField">
+        <label for="primaryCrop">Primary crop you grow</label>
+        <select id="primaryCrop">
+          <option value="">Select a crop</option>
+          <option>Wheat</option><option>Rice</option><option>Sugarcane</option>
+          <option>Cotton</option><option>Maize</option><option>Tomato</option>
+          <option>Onion</option><option>Potato</option><option>Soybean</option>
+          <option>Groundnut</option><option>Other</option>
+        </select>
+      </div>
+
+      <!-- Admin-only fields -->
+      <div class="field role-fields admin-fields" id="orgField" hidden>
+        <label for="orgName">Department / Organization</label>
+        <input type="text" id="orgName" placeholder="e.g. District Agriculture Office">
+      </div>
+      <div class="field role-fields admin-fields" id="inviteField" hidden>
+        <label for="inviteCode">Admin invite code</label>
+        <input type="text" id="inviteCode" placeholder="Provided by the portal owner">
+      </div>
+
+      <div class="field">
+        <label for="password">Create password</label>
+        <input type="password" id="password" required placeholder="At least 8 characters">
+      </div>
+      <div class="field">
+        <label for="confirmPassword">Confirm password</label>
+        <input type="password" id="confirmPassword" required placeholder="Re-enter your password">
+      </div>
+
+      <label class="checkbox terms-row">
+        <input type="checkbox" id="agreeTerms" required>
+        I agree to the portal's terms of use and data policy.
+      </label>
+
+      <button type="submit" class="btn btn-primary btn-lg full-width" id="registerSubmit">Create Farmer Account</button>
+      <p class="auth-error" id="registerError" hidden>Please complete all required fields and confirm your password matches.</p>
+    </form>
+
+    <p class="auth-switch">Already registered? <a href="login.html">Log in here</a></p>
+  </div>
+</main>
+
+<script>
+  const tabFarmer = document.getElementById("tabFarmer");
+  const tabAdmin = document.getElementById("tabAdmin");
+  const authTitle = document.getElementById("authTitle");
+  const authSub = document.getElementById("authSub");
+  const registerSubmit = document.getElementById("registerSubmit");
+  const farmerFieldEls = document.querySelectorAll(".farmer-fields");
+  const adminFieldEls = document.querySelectorAll(".admin-fields");
+  let currentRole = "farmer";
+
+  function setRole(role) {
+    currentRole = role;
+    const isAdmin = role === "admin";
+    tabFarmer.classList.toggle("active", !isAdmin);
+    tabAdmin.classList.toggle("active", isAdmin);
+    tabFarmer.setAttribute("aria-selected", String(!isAdmin));
+    tabAdmin.setAttribute("aria-selected", String(isAdmin));
+
+    authTitle.textContent = isAdmin ? "Create your Admin account" : "Create your Farmer account";
+    authSub.textContent = isAdmin
+      ? "Get access to live-edit market rates and manage portal data."
+      : "List your produce and track mandi rates relevant to you.";
+    registerSubmit.textContent = isAdmin ? "Create Admin Account" : "Create Farmer Account";
+
+    farmerFieldEls.forEach(el => el.hidden = isAdmin);
+    adminFieldEls.forEach(el => el.hidden = !isAdmin);
+  }
+
+  tabFarmer.addEventListener("click", () => setRole("farmer"));
+  tabAdmin.addEventListener("click", () => setRole("admin"));
+
+  document.getElementById("registerForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const pass = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
+    const name = document.getElementById("fullName").value.trim();
+    const errorEl = document.getElementById("registerError");
+
+    if (!name || !pass || pass !== confirm || pass.length < 8) {
+      errorEl.textContent = pass !== confirm
+        ? "Passwords don't match — please re-check and try again."
+        : "Please complete all required fields (password must be at least 8 characters).";
+      errorEl.hidden = false;
+      return;
+    }
+    errorEl.hidden = true;
+    localStorage.setItem("agri_user_name", name);
+    window.location.href = currentRole === "admin" ? "admin-dashboard.html" : "farmer-dashboard.html";
+  });
+</script>
+</body>
+</html>

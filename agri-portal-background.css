@@ -1,0 +1,204 @@
+/* ==========================================================
+   Imported agri-portal background + animation theme
+   Applied after AgriConnect styles so the portal keeps its layout
+   while using the original agri-portal visual feel.
+   ========================================================== */
+
+:root {
+  --green-deep: #1a4d2e;
+  --green-mid: #2d7a45;
+  --green-light: #4caf6e;
+  --green-pale: #e8f5e9;
+  --earth-brown: #6b4226;
+  --earth-tan: #c8a96e;
+  --earth-cream: #f9f4ec;
+  --soil-dark: #3e2723;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(76,175,110,0.16), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, var(--green-pale) 42%, var(--earth-cream) 100%);
+}
+
+.site-header {
+  background: rgba(26,77,46,0.97);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  border-bottom: none;
+}
+.site-header .brand-text,
+.site-header .main-nav a,
+.site-header .btn-ghost { color: #ffffff; }
+.site-header .brand-text em { color: var(--earth-tan); }
+.site-header .main-nav a:hover { color: var(--earth-tan); }
+.site-header .main-nav a::after { background: var(--earth-tan); }
+.site-header .nav-toggle span { background: #ffffff; }
+.site-header .btn-outline {
+  border-color: rgba(255,255,255,0.65);
+  color: #ffffff;
+}
+.site-header .btn-outline:hover {
+  background: rgba(255,255,255,0.14);
+  color: #ffffff;
+}
+
+.hero {
+  min-height: 100vh;
+  background:
+    linear-gradient(to bottom, rgba(14,40,22,0.72) 0%, rgba(26,77,46,0.55) 60%, rgba(200,169,110,0.18) 100%),
+    url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1600&q=80') center/cover no-repeat;
+  padding-top: 120px;
+  display: flex;
+  align-items: center;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100px;
+  background: linear-gradient(to top, #ffffff, transparent);
+  pointer-events: none;
+}
+.hero-inner {
+  animation: heroFadeIn 1s ease both;
+  padding-bottom: 120px;
+}
+.hero-title,
+.hero-title .accent-underline,
+.hero-sub,
+.hero .eyebrow { color: #ffffff; }
+.hero-title { text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+.hero-title .accent-underline {
+  background: none;
+  color: var(--earth-tan);
+}
+.hero-sub { color: rgba(255,255,255,0.9); }
+.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 30px;
+  padding: 6px 18px;
+  color: var(--earth-tan);
+  backdrop-filter: blur(8px);
+}
+.hero-field { display: none; }
+.hero-stats .stat {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 16px;
+  padding: 16px 24px;
+  backdrop-filter: blur(8px);
+  animation: heroFadeIn 1s ease 0.25s both;
+}
+.hero-stats .stat-num { color: var(--earth-tan); }
+.hero-stats .stat-label { color: rgba(255,255,255,0.82); }
+
+.ticker { background: var(--green-deep); }
+.ticker-label { background: var(--earth-tan); color: var(--green-deep); }
+
+.section:nth-of-type(even) {
+  background: rgba(249,244,236,0.82);
+  border-radius: 32px;
+}
+.crop-card,
+.service-card,
+.news-card,
+.about-card,
+.panel-card,
+.kpi-card,
+.contact-card,
+.auth-card {
+  box-shadow: 0 6px 24px rgba(26,77,46,0.14);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), border-color 0.3s ease;
+}
+.crop-card:hover,
+.service-card:hover,
+.news-card:hover,
+.about-card:hover,
+.panel-card:hover,
+.kpi-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(26,77,46,0.18);
+}
+
+.market {
+  background:
+    linear-gradient(135deg, rgba(26,77,46,0.96), rgba(45,122,69,0.94)),
+    url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&q=80') center/cover no-repeat;
+}
+
+.auth-body,
+.dash-body {
+  background:
+    linear-gradient(to bottom, rgba(14,40,22,0.78), rgba(26,77,46,0.62)),
+    url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1600&q=80') center/cover fixed no-repeat;
+}
+.dash-sidebar {
+  background: rgba(26,77,46,0.97);
+  box-shadow: 6px 0 24px rgba(0,0,0,0.16);
+}
+.dash-main {
+  background: rgba(249,244,236,0.86);
+  border-radius: 28px;
+  margin: 26px;
+  backdrop-filter: blur(8px);
+}
+.auth-card {
+  background: rgba(249,244,236,0.94);
+  backdrop-filter: blur(10px);
+}
+
+.btn-primary,
+.role-tab.active,
+.dash-nav a.active {
+  background: var(--green-mid);
+}
+.btn-primary:hover { background: var(--green-deep); }
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatSoft {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.88); }
+}
+
+.crop-icon,
+.service-icon,
+.logo-icon,
+.brand-mark {
+  animation: floatSoft 4s ease-in-out infinite;
+}
+.section-head,
+.crop-card,
+.service-card,
+.about-grid,
+.contact-grid,
+.market-toolbar,
+.table-wrap,
+.dash-topbar,
+.kpi-card,
+.panel-card,
+.auth-card {
+  animation: heroFadeIn 0.8s ease both;
+}
+.scroll-top.visible { animation: heroFadeIn 0.35s ease both; }
+
+@media (max-width: 760px) {
+  .site-header .main-nav.open {
+    background: rgba(26,77,46,0.98);
+  }
+  .hero { padding-top: 95px; }
+  .section:nth-of-type(even) { border-radius: 20px; }
+  .dash-main { margin: 0; border-radius: 0; }
+}

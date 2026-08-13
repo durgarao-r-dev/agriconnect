@@ -1,0 +1,416 @@
+/* ==========================================================
+   AgriConnect — dashboard shell (admin + farmer)
+   ========================================================== */
+
+.dash-body { background: var(--wheat-deep); margin: 0; }
+
+.dash-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- SIDEBAR ---------- */
+.dash-sidebar {
+  background: var(--forest);
+  color: var(--wheat);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.dash-sidebar .brand { display: flex; align-items: center; gap: 9px; }
+
+.dash-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 999px;
+  width: fit-content;
+}
+.dash-role-badge.admin { background: rgba(212,163,115,0.18); color: var(--terracotta); }
+.dash-role-badge.farmer { background: rgba(116,198,157,0.18); color: var(--sage-light); }
+
+.dash-nav { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
+.dash-nav a {
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--sage-light);
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.dash-nav a:hover { background: rgba(244,241,232,0.06); color: var(--wheat); }
+.dash-nav a.active { background: var(--pine); color: var(--white); font-weight: 600; }
+
+.dash-logout {
+  margin-top: auto;
+  font-size: 0.88rem;
+  color: var(--sage-light);
+  padding: 10px 14px;
+}
+.dash-logout:hover { color: var(--wheat); }
+
+/* ---------- MAIN ---------- */
+.dash-main { padding: 36px 44px; max-width: 1100px; }
+.dash-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.dash-topbar h1 { font-size: 1.7rem; }
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--white);
+  border: 1px solid rgba(27,67,50,0.1);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--pine);
+}
+.live-pill .dot { width: 7px; height: 7px; background: #4CAF50; border-radius: 50%; animation: pulse 1.4s infinite ease-in-out; }
+
+.dash-panel { display: none; }
+.dash-panel.active { display: block; animation: fadeIn 0.25s ease; }
+
+/* KPI cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.kpi-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.kpi-label { font-size: 0.8rem; color: #8a8070; font-weight: 600; }
+.kpi-value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--forest); }
+.kpi-value.up { color: #2D9A50; }
+
+.panel-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+}
+.panel-card h3 { font-size: 1.05rem; margin-bottom: 12px; }
+.checklist { display: flex; flex-direction: column; gap: 10px; }
+.checklist li {
+  font-size: 0.92rem;
+  color: #4a4038;
+  padding-left: 22px;
+  position: relative;
+}
+.checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--pine); font-weight: 700; }
+.inline-link { color: var(--pine); font-weight: 600; text-decoration: underline; cursor: pointer; }
+
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 12px; }
+.panel-head h2 { font-size: 1.4rem; }
+.panel-sub { color: #6b6056; font-size: 0.92rem; margin: 4px 0 22px; }
+
+/* Light tables (white background, used inside dashboards) */
+.light-table { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-soft); padding: 6px; }
+.light-table .market-table th { color: #8a8070; border-bottom: 1px solid rgba(27,67,50,0.08); }
+.light-table .market-table td { color: var(--soil); border-bottom: 1px solid rgba(27,67,50,0.06); }
+.light-table .market-table tbody tr:hover { background: rgba(116,198,157,0.06); }
+.light-table .price-cell { color: var(--terracotta-deep); }
+
+.admin-table input, .admin-table select {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1.5px solid rgba(27,67,50,0.14);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  background: var(--wheat);
+}
+.row-delete-btn {
+  background: rgba(188,71,73,0.1);
+  color: var(--rust);
+  border: none;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.row-delete-btn:hover { background: rgba(188,71,73,0.2); }
+
+.panel-actions { display: flex; align-items: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+.save-confirm { color: #2D9A50; font-weight: 600; font-size: 0.9rem; }
+
+/* Crop management list (admin) */
+.admin-crop-list { display: flex; flex-direction: column; gap: 10px; }
+.admin-crop-row {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-soft);
+}
+.admin-crop-row .ac-icon { font-size: 1.5rem; }
+.admin-crop-row .ac-info { flex: 1; }
+.admin-crop-row .ac-info strong { display: block; font-size: 0.96rem; }
+.admin-crop-row .ac-info span { font-size: 0.82rem; color: #8a8070; }
+
+/* Farmer listing cards */
+.listing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.empty-state {
+  grid-column: 1 / -1;
+  background: var(--white);
+  border: 1.5px dashed rgba(27,67,50,0.18);
+  border-radius: var(--radius);
+  padding: 36px;
+  text-align: center;
+  color: #8a8070;
+  font-size: 0.94rem;
+}
+.listing-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.listing-card h4 { font-size: 1.05rem; margin: 0; }
+.listing-detail { font-size: 0.86rem; color: #6b6056; }
+.listing-price { font-family: var(--font-mono); font-weight: 700; color: var(--terracotta-deep); font-size: 1.05rem; }
+.listing-remove {
+  align-self: flex-start;
+  background: rgba(188,71,73,0.1);
+  color: var(--rust);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+.listing-remove:hover { background: rgba(188,71,73,0.2); }
+
+/* Add produce form */
+.add-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.add-form .field { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.add-form label { font-size: 0.84rem; font-weight: 600; color: var(--forest); }
+.add-form input, .add-form select, .add-form textarea {
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(27,67,50,0.16);
+  background: var(--wheat);
+  font-size: 0.92rem;
+  resize: vertical;
+}
+
+@media (max-width: 860px) {
+  .dash-shell { grid-template-columns: 1fr; }
+  .dash-sidebar { position: relative; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .dash-nav { flex-direction: row; flex-wrap: wrap; margin-top: 0; }
+  .dash-logout { margin-top: 0; margin-left: auto; }
+  .dash-main { padding: 28px 20px; }
+  .add-form .form-row { grid-template-columns: 1fr; }
+}
+
+/* ---------- Soil Intelligence ---------- */
+.notice-banner {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  color: #5d4037;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  margin-bottom: 16px;
+}
+.soil-form-card .soil-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.soil-select, .soil-form-card select,
+.soil-form-card .field select {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(27,67,50,0.16);
+  background: #ffffff;
+  font-size: 0.92rem;
+  min-height: 44px;
+  color: #1f2937; /* keep selected value visible on light card */
+  -webkit-text-fill-color: #1f2937;
+  opacity: 1;
+}
+.soil-form-card .field label {
+  color: var(--forest);
+}
+.soil-form-card select option {
+  color: #1f2937;
+  background: #ffffff;
+}
+/* Dashboard panel form controls: never inherit homepage contact (light-on-dark) colors */
+.panel-card .field input,
+.panel-card .field select,
+.panel-card .field textarea,
+.add-form input,
+.add-form select,
+.add-form textarea {
+  color: #1f2937;
+  -webkit-text-fill-color: #1f2937;
+  background: #ffffff;
+}
+.panel-card .field label,
+.add-form label {
+  color: var(--forest);
+}
+.panel-card .field select option,
+.add-form select option {
+  color: #1f2937;
+  background: #ffffff;
+}
+.soil-status {
+  font-size: 0.86rem;
+  color: #6b6056;
+  margin: 10px 0 14px;
+}
+.soil-result { margin-top: 20px; }
+.soil-rec-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-soft);
+}
+.soil-rec-header h3 { font-size: 1.2rem; margin: 0 0 4px; color: var(--forest); }
+.soil-rec-meta { font-size: 0.88rem; color: #6b6056; margin: 0 0 8px; }
+.soil-rec-block { margin-top: 18px; }
+.soil-rec-block h4 {
+  font-size: 0.92rem;
+  color: var(--pine);
+  margin: 0 0 8px;
+}
+.soil-rec-block p { font-size: 0.9rem; color: #4a4038; margin: 0 0 6px; }
+.soil-tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.soil-tag {
+  background: rgba(116,198,157,0.2);
+  color: var(--forest);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+.soil-tag-bio {
+  background: rgba(100,149,237,0.15);
+  color: #1565c0;
+}
+.soil-mgmt {
+  background: #faf8f4;
+  border-left: 4px solid var(--pine);
+  padding: 12px 14px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  color: #4a4038;
+}
+.soil-disclaimer {
+  margin-top: 18px;
+  padding: 14px;
+  background: #fafafa;
+  border: 1px solid rgba(27,67,50,0.1);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #6b6056;
+  line-height: 1.55;
+}
+
+.listing-actions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.listing-edit {
+  background: rgba(45,106,79,0.1);
+  color: var(--pine);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 36px;
+}
+.listing-edit:hover { background: rgba(45,106,79,0.18); }
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+.dash-menu-toggle {
+  display: none;
+  background: rgba(244,241,232,0.1);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0;
+}
+.dash-menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--wheat);
+  border-radius: 1px;
+}
+
+@media (max-width: 860px) {
+  .soil-form-card .soil-form-row { grid-template-columns: 1fr; }
+  .dash-menu-toggle { display: flex; }
+  .dash-sidebar {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    position: relative;
+  }
+  .dash-sidebar .dash-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+  .dash-sidebar.nav-open .dash-nav { display: flex; }
+  .dash-sidebar .dash-role-badge { display: none; }
+  .dash-sidebar.nav-open .dash-role-badge { display: inline-flex; }
+  .dash-logout { display: none; }
+  .dash-sidebar.nav-open .dash-logout { display: block; margin-top: 8px; margin-left: 0; }
+  .dash-main { padding: 20px 16px; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 400px) {
+  .dash-topbar h1 { font-size: 1.35rem; }
+  .kpi-value { font-size: 1.4rem; }
+}

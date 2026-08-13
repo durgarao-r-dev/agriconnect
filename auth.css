@@ -1,0 +1,115 @@
+/* ==========================================================
+   AgriConnect — auth pages (login / register)
+   ========================================================== */
+
+.auth-body {
+  background: linear-gradient(160deg, var(--forest) 0%, var(--pine) 55%, var(--sage) 130%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 60px;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 28px;
+}
+.auth-brand .brand-text { color: var(--wheat); font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
+.auth-brand .brand-text em { font-style: normal; color: var(--sage-light); }
+
+.auth-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.auth-card {
+  background: var(--wheat);
+  border-radius: 22px;
+  padding: 36px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+}
+.auth-card-wide { max-width: 540px; }
+
+.role-tabs {
+  display: flex;
+  background: var(--wheat-deep);
+  border-radius: 999px;
+  padding: 5px;
+  margin-bottom: 28px;
+}
+.role-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #6b6056;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+.role-tab.active {
+  background: var(--pine);
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+.role-icon { font-size: 1rem; }
+
+.auth-head { text-align: center; margin-bottom: 26px; }
+.auth-head h1 { font-size: 1.5rem; margin-bottom: 6px; }
+.auth-head p { color: #6b6056; font-size: 0.92rem; margin: 0; }
+
+.auth-form .field { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.auth-form label { font-size: 0.84rem; font-weight: 600; color: var(--forest); }
+.auth-form input, .auth-form select {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(27,67,50,0.16);
+  background: var(--white);
+  font-size: 0.94rem;
+  color: var(--soil);
+}
+.auth-form input:focus, .auth-form select:focus { border-color: var(--pine); }
+.auth-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.auth-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 0.86rem; }
+.checkbox { display: flex; align-items: center; gap: 7px; color: #5c5248; cursor: pointer; }
+.checkbox input { width: 16px; height: 16px; accent-color: var(--pine); }
+.auth-link { color: var(--pine); font-weight: 600; }
+.auth-link:hover { text-decoration: underline; }
+.terms-row { margin-bottom: 20px; font-size: 0.86rem; }
+
+.admin-only-field { animation: fadeIn 0.25s ease; }
+.role-fields { animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+.auth-error {
+  color: var(--rust);
+  background: rgba(188, 71, 73, 0.08);
+  border: 1px solid rgba(188, 71, 73, 0.25);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  margin-top: 14px;
+}
+
+.auth-switch { text-align: center; margin: 20px 0 0; font-size: 0.9rem; color: #6b6056; }
+.auth-switch a { color: var(--pine); font-weight: 700; }
+.auth-switch a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 26px 20px; }
+  .auth-form .form-row { grid-template-columns: 1fr; }
+  .role-tab span:not(.role-icon) { display: none; }
+}

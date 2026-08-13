@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B4332">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png" type="image/png">
+<title>Admin Dashboard — AgriConnect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="agri-portal-background.css">
+</head>
+<body class="dash-body">
+
+<div class="dash-shell">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="dash-sidebar" id="dashSidebar">
+    <div class="sidebar-top">
+      <a href="index.html" class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28"><path d="M24 44C24 44 8 34 8 18C8 10 14 4 24 4C34 4 40 10 40 18C40 34 24 44 24 44Z" fill="#74C69D"/><path d="M24 38C24 38 14 30 14 19C14 14 18 10 24 10C30 10 34 14 34 19C34 30 24 38 24 38Z" fill="#1B4332"/></svg>
+        </span>
+        <span class="brand-text light">Agri<em>Connect</em></span>
+      </a>
+      <button type="button" class="dash-menu-toggle" id="dashMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <span class="dash-role-badge admin">🛠️ Admin Panel</span>
+
+    <nav class="dash-nav">
+      <a href="#overview" class="active" data-target="overview">📊 Overview</a>
+      <a href="#rates" data-target="rates">💰 Edit Market Rates</a>
+      <a href="#crops" data-target="crops">🌾 Manage Crops</a>
+      <a href="#farmers" data-target="farmers">🧑‍🌾 Farmer Activity</a>
+      <a href="#soilref" data-target="soilref">🌱 Soil Data (ref)</a>
+    </nav>
+
+    <a href="index.html" class="dash-logout">← Exit to homepage</a>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="dash-main">
+    <header class="dash-topbar">
+      <div>
+        <p class="eyebrow">Live Control Centre</p>
+        <h1>Welcome back, <span id="adminName">Admin</span></h1>
+      </div>
+      <div class="topbar-right">
+        <span class="live-pill"><span class="dot"></span> Changes go live instantly</span>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section class="dash-panel active" id="overview">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Crops Tracked</span>
+          <span class="kpi-value" id="kpiCrops">10</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Active Listings</span>
+          <span class="kpi-value" id="kpiListings">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Avg. Price Change Today</span>
+          <span class="kpi-value up">+2.4%</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Registered Farmers</span>
+          <span class="kpi-value">12,400+</span>
+        </div>
+      </div>
+      <div class="panel-card">
+        <h3>What you can do here</h3>
+        <ul class="checklist">
+          <li>Edit live market prices — changes reflect instantly on the public Market Prices page.</li>
+          <li>Add or remove tracked crops from the public Crop Directory.</li>
+          <li>Review produce that farmers have listed for sale.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EDIT RATES -->
+    <section class="dash-panel" id="rates">
+      <div class="panel-head">
+        <h2>Edit Market Rates</h2>
+        <button class="btn btn-primary" id="addRateBtn">+ Add New Rate Entry</button>
+      </div>
+      <p class="panel-sub">Update price, trend, or market name below. Click <strong>Save Changes</strong> to publish live to the public Market Prices page.</p>
+
+      <div class="table-wrap light-table">
+        <table class="market-table admin-table">
+          <thead>
+            <tr><th>Crop</th><th>Market</th><th>Price (₹/Qtl)</th><th>Trend</th><th>Updated</th><th></th></tr>
+          </thead>
+          <tbody id="adminRatesBody"></tbody>
+        </table>
+      </div>
+      <div class="panel-actions">
+        <button class="btn btn-primary btn-lg" id="saveRatesBtn">Save Changes (Publish Live)</button>
+        <button class="btn btn-outline" id="resetRatesBtn">Reset to Defaults</button>
+        <span class="save-confirm" id="saveConfirm" hidden>✓ Published — visible on the public Market Prices page now.</span>
+      </div>
+    </section>
+
+    <!-- MANAGE CROPS -->
+    <section class="dash-panel" id="crops">
+      <div class="panel-head">
+        <h2>Manage Crop Directory</h2>
+      </div>
+      <p class="panel-sub">This is the list shown publicly on the Crops section of the homepage.</p>
+      <div class="admin-crop-list" id="adminCropList"></div>
+    </section>
+
+    <!-- FARMER ACTIVITY -->
+    <section class="dash-panel" id="farmers">
+      <div class="panel-head"><h2>Farmer-Listed Produce</h2></div>
+      <p class="panel-sub">Produce that farmers have added from their own dashboard appears here for review.</p>
+      <div class="table-wrap light-table">
+        <table class="market-table admin-table">
+          <thead><tr><th>Farmer</th><th>Produce</th><th>Quantity</th><th>Asking Price</th><th>Listed</th></tr></thead>
+          <tbody id="farmerListingsBody"></tbody>
+        </table>
+      </div>
+    </section>
+  
+    <!-- SOIL REFERENCE (read-only for this static version) -->
+    <section class="dash-panel" id="soilref">
+      <div class="panel-head"><h2>🌱 Soil Data Reference</h2></div>
+      <p class="panel-sub">Read-only reference of district soil coverage used by Soil Intelligence. Editing cloud soil data requires a future backend. This static demo uses local JavaScript data.</p>
+      <div class="notice-banner">Local reference only — not synced to a central database.</div>
+      <div class="panel-card" id="adminSoilRef">
+        <p class="empty-state">Loading soil reference…</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="soil-data.js"></script>
+<script src="dashboard-admin.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

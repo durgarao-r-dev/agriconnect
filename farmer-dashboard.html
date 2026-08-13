@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B4332">
+<meta name="description" content="Farmer Dashboard — AgriConnect Soil Intelligence, rates, and produce listings.">
+<title>Farmer Dashboard — AgriConnect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="agri-portal-background.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon-192.png" type="image/png">
+</head>
+<body class="dash-body">
+
+<div class="dash-shell">
+  <aside class="dash-sidebar" id="dashSidebar">
+    <div class="sidebar-top">
+      <a href="index.html" class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28"><path d="M24 44C24 44 8 34 8 18C8 10 14 4 24 4C34 4 40 10 40 18C40 34 24 44 24 44Z" fill="#74C69D"/><path d="M24 38C24 38 14 30 14 19C14 14 18 10 24 10C30 10 34 14 34 19C34 30 24 38 24 38Z" fill="#1B4332"/></svg>
+        </span>
+        <span class="brand-text light">Agri<em>Connect</em></span>
+      </a>
+      <button type="button" class="dash-menu-toggle" id="dashMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <span class="dash-role-badge farmer">🧑‍🌾 Farmer Panel</span>
+
+    <nav class="dash-nav" id="dashNav">
+      <a href="#overview" class="active" data-target="overview">📊 Overview</a>
+      <a href="#soil" data-target="soil">🌱 Soil Intelligence</a>
+      <a href="#rates" data-target="rates">💰 Today's Rates</a>
+      <a href="#mylistings" data-target="mylistings">🧺 My Listings</a>
+      <a href="#addproduce" data-target="addproduce">➕ Add Produce</a>
+    </nav>
+
+    <a href="index.html" class="dash-logout">← Exit to homepage</a>
+  </aside>
+
+  <main class="dash-main">
+    <header class="dash-topbar">
+      <div>
+        <p class="eyebrow">Farmer Dashboard</p>
+        <h1>Welcome back, <span id="farmerName">Farmer</span></h1>
+      </div>
+      <div class="topbar-right">
+        <span class="live-pill"><span class="dot"></span> Demo · device storage</span>
+      </div>
+    </header>
+
+    <section class="dash-panel active" id="overview">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Your Active Listings</span>
+          <span class="kpi-value" id="kpiMyListings">0</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Crops Tracked Today</span>
+          <span class="kpi-value">10</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Best Price Today</span>
+          <span class="kpi-value" id="kpiBestPrice">—</span>
+        </div>
+      </div>
+      <div class="panel-card">
+        <h3>Quick actions</h3>
+        <ul class="checklist">
+          <li>Use <a href="#soil" class="inline-link" data-target="soil">Soil Intelligence</a> for crop and biofertilizer guidance by district.</li>
+          <li>Check <a href="#rates" class="inline-link" data-target="rates">today's mandi rates</a> (sample/demo data) before deciding when to sell.</li>
+          <li><a href="#addproduce" class="inline-link" data-target="addproduce">Add your produce</a> so you can track what you have available.</li>
+          <li>Manage or remove your existing listings any time.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="soil">
+      <div class="panel-head"><h2>🌱 Soil Intelligence</h2></div>
+      <p class="panel-sub">Select your district or area, then a soil type, to see general crop and biofertilizer recommendations.</p>
+
+      <div class="panel-card soil-form-card">
+        <div class="form-row soil-form-row">
+          <div class="field">
+            <label for="soilDistrict">1. District / Area</label>
+            <select id="soilDistrict" class="soil-select">
+              <option value="">— Select District / Area —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="soilType">2. Soil type</label>
+            <select id="soilType" class="soil-select" disabled>
+              <option value="">— Select Soil Type —</option>
+            </select>
+          </div>
+        </div>
+        <p id="soilStatus" class="soil-status" role="status">Select a district or area to continue.</p>
+        <button type="button" class="btn btn-primary" id="soilGetBtn">Get Recommendation</button>
+      </div>
+
+      <div id="soilResult" class="soil-result" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="dash-panel" id="rates">
+      <div class="panel-head"><h2>Today's Market Rates</h2></div>
+      <p class="panel-sub">Sample / demo rates for this portal. They may be edited by admins in the demo (stored in this browser). Not live exchange prices.</p>
+      <div class="notice-banner">Demo data — not real-time market prices.</div>
+      <div class="table-wrap light-table">
+        <table class="market-table admin-table">
+          <thead><tr><th>Crop</th><th>Market</th><th>Price (₹/Qtl)</th><th>Trend</th><th>Updated</th></tr></thead>
+          <tbody id="farmerRatesBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="mylistings">
+      <div class="panel-head">
+        <h2>My Listings</h2>
+        <button class="btn btn-primary" data-target="addproduce" id="goAddProduce">+ Add Produce</button>
+      </div>
+      <p class="panel-sub">Produce you've listed. Edit or remove as needed.</p>
+      <div class="notice-banner">Your listings are stored on this device/browser in the current version.</div>
+      <div class="listing-grid" id="myListingsGrid">
+        <p class="empty-state" id="emptyListings">You haven't added any produce yet. Use <strong>Add Produce</strong> to list your first item.</p>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="addproduce">
+      <div class="panel-head"><h2 id="addProduceTitle">Add Fruits &amp; Vegetables</h2></div>
+      <p class="panel-sub" id="addProduceSub">List what you have ready to sell. It'll appear in "My Listings" immediately on this device.</p>
+
+      <form class="panel-card add-form" id="addProduceForm">
+        <input type="hidden" id="produceEditId" value="">
+        <div class="form-row">
+          <div class="field">
+            <label for="produceName">Crop / Produce name</label>
+            <select id="produceName" required>
+              <option value="">Select produce</option>
+              <option>Wheat</option><option>Rice</option><option>Paddy</option>
+              <option>Sugarcane</option>
+              <option>Cotton</option><option>Maize</option><option>Tomato</option>
+              <option>Onion</option><option>Potato</option><option>Soybean</option>
+              <option>Groundnut</option><option>Chillies</option><option>Pulses</option>
+              <option>Mango</option><option>Banana</option><option>Spinach</option>
+              <option>Cabbage</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="produceQty">Quantity</label>
+            <input type="number" id="produceQty" min="0.1" step="0.1" required placeholder="e.g. 12">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="produceUnit">Unit</label>
+            <select id="produceUnit">
+              <option value="quintals">quintals</option>
+              <option value="kg">kg</option>
+              <option value="tonnes">tonnes</option>
+              <option value="bags">bags</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="producePrice">Asking price (₹ per unit)</label>
+            <input type="number" id="producePrice" min="1" required placeholder="e.g. 1800">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="produceLocation">Pickup location</label>
+            <input type="text" id="produceLocation" required placeholder="Village / Town / District">
+          </div>
+          <div class="field">
+            <label for="produceDate">Date</label>
+            <input type="date" id="produceDate">
+          </div>
+        </div>
+        <div class="field">
+          <label for="produceNotes">Notes / description (optional)</label>
+          <textarea id="produceNotes" rows="3" placeholder="Quality grade, harvest date, anything buyers should know..."></textarea>
+        </div>
+        <div class="panel-actions">
+          <button type="submit" class="btn btn-primary btn-lg" id="produceSubmitBtn">Add to My Listings</button>
+          <button type="button" class="btn btn-ghost" id="produceCancelEdit" hidden>Cancel edit</button>
+          <span class="save-confirm" id="addConfirm" hidden>✓ Saved to your listings.</span>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="soil-data.js"></script>
+<script src="soil-intelligence.js"></script>
+<script src="dashboard-farmer.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
